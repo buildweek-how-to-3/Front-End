@@ -3,8 +3,8 @@ import axios from "axios";
 import { axiosWithAuth } from '../utils/axiosWithAuth';
 import {useHistory} from 'react-router-dom'
 import {useState} from 'react'
-
-const Login = () => {
+import {useLocalStorage} from '../utils/useLocalStorage'
+const Register = () => {
   const history =useHistory();
   const [credentials, setCredentials] =useState({
     username: "",
@@ -24,27 +24,22 @@ const Login = () => {
     console.log(credentials)
   }
 
-  const login = e => {
+  const register = e => {
     e.preventDefault();
     axiosWithAuth()
-      .post("https://backend-how-to.herokuapp.com/api/auth/login", credentials)
+      .post("https://backend-how-to.herokuapp.com/api/auth/register", credentials)
       .then(res => {
         console.log(res)
-        // res.data.payload ==> localStorage
-        // navigate user to the "protected" route
-        localStorage.setItem('token', res.data.token);
-        history.push("/dashboard");
+        history.push("/login");
       })
       .catch(err => console.log(err))
     };
 
 
     return (
-
       <div>
-                <h1>Login Page</h1>
-
-        <form onSubmit={login}>
+        <h1>Register Page</h1>
+        <form onSubmit={register}>
         <input
         autoComplete="off"
         id="username"
@@ -71,4 +66,4 @@ const Login = () => {
   }
   
 
-  export default Login;
+  export default Register;
